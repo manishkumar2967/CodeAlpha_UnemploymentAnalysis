@@ -1,0 +1,71 @@
+=== 1. DATA CLEANING ===
+A: raw rows 768; dropped 28 completely blank rows -> 740 rows
+A: 11 rows have an unemployment rate of exactly 0 with positive employment (mostly Puducherry/Goa/Sikkim rural) - kept, but treated as suspect small-sample values.
+B: source columns 'longitude'/'latitude' are swapped (values 10-34 / 71-93); relabelled correctly.
+B: 'Region' appears twice in the header (state and zone); zone column renamed 'zone'.
+A: 28 states/UTs; 20 have every month in both Rural and Urban (excluded from totals: ['Assam', 'Chandigarh', 'Goa', 'Jammu & Kashmir', 'Meghalaya', 'Puducherry', 'Sikkim', 'Uttarakhand'])
+B: 27 states; 25 have all 10 months (excluded from totals: ['Jammu & Kashmir', 'Sikkim'])
+A covers May 2019 - Jun 2020; B covers Jan 2020 - Oct 2020
+
+=== 2. NATIONAL TREND (weighted, balanced panel) ===
+
+=== 3. COVID-19 IMPACT BY PHASE (Dataset B, balanced panel) ===
+Pre-Covid baseline, Dataset A (May 2019 - Feb 2020): 7.57%
+Peak month in Dataset B: Apr 2020 at 23.96% = 3.3x the Jan-Feb baseline (7.36%)
+October 2020: 6.93% vs Jan-Feb baseline 7.36%
+Employed persons (balanced panel): Jan 2020 403.1 m -> Apr 2020 274.6 m (-31.9%); Oct 2020 390.3 m (index 96.8)
+Labour force participation: Jan 42.9% -> Apr 35.5% -> Oct 40.7%
+
+=== 4. RURAL vs URBAN (Dataset A, balanced panel) ===
+Pre-Covid (May19-Feb20) weighted rate: Rural 6.98%, Urban 8.81%
+Apr 2020: Rural 23.76%, Urban 25.77%; May 2020: Rural 23.58%, Urban 26.19%
+
+=== 5. STATE-LEVEL IMPACT (Dataset B) ===
+25 states have Jan, Feb, Apr, May and Oct all present (dropped: ['Jammu & Kashmir', 'Sikkim'])
+Largest rise (pp) from Jan-Feb baseline to Apr-May average:
+            baseline  lockdown  shock_pp
+state                                   
+Puducherry       1.2      67.0      65.8
+Jharkhand       11.2      53.2      41.9
+Tamil Nadu       1.8      41.5      39.7
+Bihar           10.4      46.3      35.8
+Karnataka        3.2      24.9      21.7
+Odisha           2.5      17.6      15.1
+States still >3pp above baseline in Oct 2020:
+             baseline   oct  oct_vs_base_pp
+state                                      
+Uttarakhand       5.2   9.2             4.0
+Rajasthan        13.1  24.2            11.1
+Goa               5.9  11.5             5.7
+West Bengal       5.9  10.0             4.1
+Haryana          23.1  27.3             4.3
+Puducherry        1.2   6.2             5.0
+Paired Wilcoxon (state lockdown avg vs baseline): n=25, p=1.13e-06; 23/25 states rose
+Paired Wilcoxon (Oct vs baseline): p=0.596; median change -0.72 pp
+
+=== 6. ZONES (Dataset B, balanced panel) ===
+
+=== 7. SEASONALITY & PATTERNS ===
+Pre-Covid monthly national rate (A, May19-Feb20): mean 7.57%, min 7.05% (May 2019), max 8.14% (Aug 2019), std 0.40 pp
+Pre-Covid month-to-month direction alternates up/down in 8 of 8 consecutive changes (amplitude about 0.72 pp per month)
+Year-on-year, same month (Dataset A):
+     2019   2020
+May  7.05  24.38
+Jun  7.90  11.29
+Rural-Urban gap pre-Covid: urban higher in 10 of 10 months
+Correlation unemployment rate vs LFPR across state-months: r = -0.07
+Simple state-month means by period:
+                       ur   lfpr
+period                          
+Lockdown (Apr-May)  22.75  37.51
+Other months         9.63  42.71
+
+=== 8. RECONCILIATION OF THE TWO FILES (Jan-Jun 2020 overlap) ===
+158 overlapping state-months: correlation 0.972, median |diff| 0.00 pp, mean |diff| 1.04 pp, 12 state-months differ by more than 5 pp
+Largest disagreements:
+           state       date  ur_A   ur  diff
+       Telangana 2020-05-31  34.8 14.7  20.1
+      Puducherry 2020-05-31  75.0 58.2  16.8
+ Jammu & Kashmir 2020-05-31   5.2 18.7 -13.5
+     Uttarakhand 2020-03-31   8.2 19.8 -11.7
+Himachal Pradesh 2020-06-30   2.1 13.5 -11.4
